@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-MPV_VERSION="0.41.0"
+MPV_VERSION="0.42.0"
 TARBALL="v${MPV_VERSION}.tar.gz"
 SRC_DIR="mpv-${MPV_VERSION}"
 
@@ -37,14 +37,14 @@ done
 cat <<EOF > subprojects/libplacebo.wrap
 [wrap-git]
 url = https://github.com/haasn/libplacebo
-revision = master
+revision = v7.387.0
 depth = 1
 clone-recursive = true
 EOF
 
 cat <<EOF > subprojects/libass.wrap
 [wrap-git]
-revision = master
+revision = 0.17.5
 url = https://github.com/libass/libass
 depth = 1
 EOF
@@ -52,7 +52,7 @@ EOF
 cat <<EOF > subprojects/ffmpeg.wrap
 [wrap-git]
 url = https://gitlab.freedesktop.org/gstreamer/meson-ports/ffmpeg.git
-revision = meson-8.0
+revision = meson-9.0
 depth = 1
 [provide]
 libavcodec = libavcodec_dep
@@ -88,6 +88,10 @@ meson setup build \
   -Dlibplacebo:lcms=disabled \
   -Dlibplacebo:demos=false \
   -Dgpl=false \
+  -Dd3d-hwaccel=disabled \
+  -Dd3d9-hwaccel=disabled \
+  -Dd3d11=disabled \
+  -Ddirect3d=disabled
 
 echo "=== 5. Compiling libmpv ==="
 ninja -C build libmpv-2.dll
